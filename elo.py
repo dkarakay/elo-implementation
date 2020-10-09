@@ -24,14 +24,6 @@ def determine_rating_loser(pre_l: float, prob_l: float, k_factor: int):
     return pre_l + k_factor * (0 - prob_l)
 
 
-def calc_w(rw, pw, k):
-    return determine_rating_winner(rw, pw, k)
-
-
-def calc_l(rl, pl, k):
-    return determine_rating_loser(rl, pl, k)
-
-
 def loop_through(rw, rl, k, count):
     print(f"Rank_Winner: {round(rw, 2)}")
     print(f"Rank_Loser: {round(rl, 2)}")
@@ -47,7 +39,11 @@ def loop_through(rw, rl, k, count):
 
     if count < 1:
         return
-    return loop_through(calc_w(rw, pw, k), calc_l(rl, pl, k), k, count - 1)
+    return loop_through(
+        determine_rating_winner(rw, pw, k),
+        determine_rating_loser(rl, pl, k),
+        k, count - 1
+    )
 
 
 def plot_data(x, y):
@@ -64,7 +60,7 @@ def plot_data(x, y):
 r1 = 1000
 r2 = 1500
 k = 30
-c = 3
+c = 2
 
 loop_through(rw=r1, rl=r2, k=k, count=c)
 
@@ -83,4 +79,4 @@ diff_elo = w - l
 print(diff_elo)
 print(diff_rank)
 
-plot_data(x=diff_elo[:length-1],y=diff_rank)
+plot_data(x=diff_elo[:length - 1], y=diff_rank)
